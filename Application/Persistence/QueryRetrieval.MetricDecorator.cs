@@ -1,11 +1,9 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Template.Application.Persistence;
 using Template.Application.RetrievalQueries;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Persistence
 {
 	internal class QueryRetrievalPersistenceMetricDecorator<TId, TRequest, TResult> : IQueryRetrievalPersistence<TId, TRequest, TResult>
 		where TRequest : BaseRequest<TId>
@@ -29,7 +27,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				var result = await _queryRetrievalPersistence.Retrieve(request);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.QueryRetrievalPersistenceTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.QueryRetrievalPersistenceTimer, stopwatch.ElapsedMilliseconds);
 				return result;
 			}
 			catch (Exception)
@@ -60,7 +58,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				var result = await _queryRetrievalPersistence.Retrieve();
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.QueryRetrievalPersistenceTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.QueryRetrievalPersistenceTimer, stopwatch.ElapsedMilliseconds);
 				return result;
 			}
 			catch (Exception)

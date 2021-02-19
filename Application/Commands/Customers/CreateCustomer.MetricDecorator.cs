@@ -1,11 +1,10 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Template.Application.Persistence;
 using Template.Domain.Entities;
 using Template.Domain.Entities.Customers;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Commands.Customers
 {
 	internal class CreateCustomerMetricDecorator : IEntityModificationPersistence<long, long, Customer, CreateModification<long, long, Customer>>
 	{
@@ -25,8 +24,8 @@ namespace Template.Application.Decorators
 			try
 			{
 				await _entityModificationPersistence.Persist(modification);
-				_metrics.Measure.Counter.Increment(ApplicationMetricsRegistry.CreatedCustomersCounter);
-				_metrics.Measure.Counter.Increment(ApplicationMetricsRegistry.ActiveCustomersCounter);
+				_metrics.IncreaseCounter(ApplicationMetricsRegistry.CreatedCustomersCounter);
+				_metrics.IncreaseCounter(ApplicationMetricsRegistry.ActiveCustomersCounter);
 			}
 			catch (Exception)
 			{

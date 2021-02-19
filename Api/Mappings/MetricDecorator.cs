@@ -1,19 +1,19 @@
-﻿using App.Metrics;
-using AutoMapper;
+﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using Template.Application;
 
-namespace Template.Api.Decorators
+namespace Template.Api.Mappings
 {
-	public class MapperMetricDecorator : IMapper
+	public class MappingMetricDecorator : IMapper
 	{
 		private readonly IMapper _mapper;
 		private readonly IMetrics _metrics;
 
-		public MapperMetricDecorator(
+		public MappingMetricDecorator(
 			IMapper mapper,
 			IMetrics metrics)
 		{
@@ -30,7 +30,7 @@ namespace Template.Api.Decorators
 			var stopwatch = Stopwatch.StartNew();
 			var destination = _mapper.Map<TSource, TDestination>(source);
 			stopwatch.Stop();
-			_metrics.Measure.Timer.Time(ApiMetricsRegistry.MapTimer, stopwatch.ElapsedMilliseconds);
+			_metrics.MeasureTime(ApiMetricsRegistry.MapTimer, stopwatch.ElapsedMilliseconds);
 			return destination;
 		}
 

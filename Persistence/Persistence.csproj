@@ -9,6 +9,7 @@
 		<PackageReference Include="Autofac" Version="6.1.0" />
 		<PackageReference Include="Dapper" Version="2.0.78" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.3" />
 		<PackageReference Include="MongoDB.Driver" Version="2.11.6" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
@@ -24,6 +25,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Decorators\" />
+		<Folder Include="Decorators\" />
 	</ItemGroup>
 </Project>

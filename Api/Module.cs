@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
+using Template.Api.HostBuilder.DIRegistrations;
 
 namespace Template.Api
 {

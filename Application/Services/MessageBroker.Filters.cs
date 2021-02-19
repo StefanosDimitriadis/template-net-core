@@ -1,5 +1,4 @@
-﻿using App.Metrics;
-using GreenPipes;
+﻿using GreenPipes;
 using MassTransit;
 using System;
 using System.Diagnostics;
@@ -26,7 +25,7 @@ namespace Template.Application.Services
 				var stopwatch = Stopwatch.StartNew();
 				await nextPipe.Send(consumeContext);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.MessageBrokerConsumerTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.MessageBrokerConsumerTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{

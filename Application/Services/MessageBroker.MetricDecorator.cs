@@ -1,10 +1,9 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Template.Application.Services;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Services
 {
 	internal class MessageBrokerMetricDecorator : IMessageBroker
 	{
@@ -26,7 +25,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				await _messageBroker.Publish(message);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.MessageBrokerPublishTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.MessageBrokerPublishTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{

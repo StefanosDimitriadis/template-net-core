@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Template.Application.Persistence;
-using Template.Application.Services;
 using Template.Domain.Entities;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Services
 {
 	internal class EntityRetrievalPersistenceCacheDecorator<TId, TEntity> : IEntityRetrievalPersistence<TId, TEntity>
 		where TEntity : BaseEntity<TId>

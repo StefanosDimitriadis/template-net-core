@@ -1,11 +1,9 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Template.Application.Services;
 using Template.Domain.Entities;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Services
 {
 	internal class DistributedCacheWrapperMetricDecorator<TId, TEntity> : IDistributedCacheWrapper<TId, TEntity>
 		where TEntity : BaseEntity<TId>
@@ -28,7 +26,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				await _distributedCacheWrapper.Add(entity);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.DistributedCacheWrapperAddTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.DistributedCacheWrapperAddTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{
@@ -43,7 +41,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				var entity = await _distributedCacheWrapper.Get(id);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.DistributedCacheWrapperGetTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.DistributedCacheWrapperGetTimer, stopwatch.ElapsedMilliseconds);
 				return entity;
 			}
 			catch (Exception)

@@ -1,11 +1,10 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Template.Application.Persistence;
 using Template.Domain.Entities;
 using Template.Domain.Entities.Customers;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Commands.Customers
 {
 	internal class DeleteCustomerMetricDecorator : IEntityModificationPersistence<long, long, Customer, DeleteModification<long, long, Customer>>
 	{
@@ -25,7 +24,7 @@ namespace Template.Application.Decorators
 			try
 			{
 				await _entityModificationPersistence.Persist(modification);
-				_metrics.Measure.Counter.Decrement(ApplicationMetricsRegistry.ActiveCustomersCounter);
+				_metrics.DecreaseCounter(ApplicationMetricsRegistry.ActiveCustomersCounter);
 			}
 			catch (Exception)
 			{

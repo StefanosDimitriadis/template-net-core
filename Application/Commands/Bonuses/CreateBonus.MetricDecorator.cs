@@ -1,11 +1,10 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Template.Application.Persistence;
 using Template.Domain.Entities;
 using Template.Domain.Entities.Bonuses;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Commands.Bonuses
 {
 	internal class CreateBonusMetricDecorator : IEntityModificationPersistence<long, long, Bonus, CreateModification<long, long, Bonus>>
 	{
@@ -25,7 +24,7 @@ namespace Template.Application.Decorators
 			try
 			{
 				await _entityModificationPersistence.Persist(modification);
-				_metrics.Measure.Counter.Increment(ApplicationMetricsRegistry.CreatedBonusesCounter);
+				_metrics.IncreaseCounter(ApplicationMetricsRegistry.CreatedBonusesCounter);
 			}
 			catch (Exception)
 			{

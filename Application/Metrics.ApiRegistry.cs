@@ -2,13 +2,13 @@
 using App.Metrics.Counter;
 using App.Metrics.Timer;
 
-namespace Template.Api
+namespace Template.Application
 {
-	internal static class ApiMetricsRegistry
+	public static class ApiMetricsRegistry
 	{
 		private const string Context = "Api";
 
-		internal static TimerOptions MapTimer = new TimerOptions
+		public static TimerOptions MapTimer = new TimerOptions
 		{
 			Context = Context,
 			Name = "Map Timer",
@@ -17,7 +17,7 @@ namespace Template.Api
 			RateUnit = TimeUnit.Milliseconds
 		};
 
-		internal static TimerOptions HttpRequestHandlingTimer = new TimerOptions
+		public static TimerOptions HttpRequestHandlingTimer = new TimerOptions
 		{
 			Context = Context,
 			Name = "Http Request Handling Timer",
@@ -26,56 +26,56 @@ namespace Template.Api
 			RateUnit = TimeUnit.Milliseconds
 		};
 
-		internal static CounterOptions ValidationExceptionCounter = new CounterOptions
+		public static CounterOptions ValidationExceptionCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Validation Exception Counter",
 			MeasurementUnit = Unit.Items
 		};
 
-		internal static CounterOptions ExceptionCounter = new CounterOptions
+		public static CounterOptions ExceptionCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Exception Counter",
 			MeasurementUnit = Unit.Items
 		};
 
-		internal static CounterOptions HttpRequestTotalCounter = new CounterOptions
+		public static CounterOptions HttpRequestTotalCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Total Http Requests Counter",
 			MeasurementUnit = Unit.Items
 		};
 
-		internal static CounterOptions HttpRequestCustomMiddlewareCounter = new CounterOptions
+		public static CounterOptions HttpRequestCustomMiddlewareCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Custom Middleware Http Requests Counter",
 			MeasurementUnit = Unit.Items
 		};
 
-		internal static CounterOptions HttpRequestSuccessfulHandlingCounter = new CounterOptions
+		public static CounterOptions HttpRequestSuccessfulHandlingCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Successfully Handled Http Requests Counter",
 			MeasurementUnit = Unit.Items
 		};
 
-		internal static CounterOptions HttpRequestCustomMiddlewareSuccessfulHandlingCounter = new CounterOptions
+		public static CounterOptions HttpRequestCustomMiddlewareSuccessfulHandlingCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Successfully Handled Custom Middleware Http Request Counter",
 			MeasurementUnit = Unit.Items
 		};
 
-		internal static CounterOptions HttpRequestUnsuccessfulHandlingCounter = new CounterOptions
+		public static CounterOptions HttpRequestUnsuccessfulHandlingCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Unsuccessfully Handled Http Requests Counter",
 			MeasurementUnit = Unit.Items
 		};
 
-		internal static CounterOptions HttpRequestCustomMiddlewareUnsuccessfulHandlingCounter = new CounterOptions
+		public static CounterOptions HttpRequestCustomMiddlewareUnsuccessfulHandlingCounter = new CounterOptions
 		{
 			Context = Context,
 			Name = "Unsuccessfully Handled Custom Middleware Http Requests Counter",

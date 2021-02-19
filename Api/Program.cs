@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using NLog;
-using NLog.Web;
 using System;
 using System.Threading.Tasks;
+using Template.Api.DIRegistrations;
+using Template.Api.HostBuilder.DIRegistrations;
+using Template.Application;
+using Template.Application.Services;
 
 namespace Template.Api
 {
@@ -17,11 +19,11 @@ namespace Template.Api
 			try
 			{
 				var hostBuilder = Host.CreateDefaultBuilder(args);
-				hostBuilder.UseNLog();
+				hostBuilder.UseNlog();
 				logger.Info("Application starting");
 				hostBuilder.UseAutofacServiceProviderFactory();
 				hostBuilder.ConfigureWebHost();
-				hostBuilder.ConfigureAppMetricsHosting();
+				hostBuilder.ConfigureMetricsHosting();
 				host = hostBuilder.Build();
 				await host.RunAsync();
 			}

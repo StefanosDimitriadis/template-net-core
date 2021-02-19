@@ -2,6 +2,14 @@ using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Template.Api.DIRegistrations;
+using Template.Api.HealthChecks;
+using Template.Api.HostBuilder.DIRegistrations;
+using Template.Api.HostedServices;
+using Template.Api.Middlewares;
+using Template.Application;
+using Template.Infrastructure;
+using Template.Persistence;
 
 namespace Template.Api
 {

@@ -1,9 +1,9 @@
-﻿using App.Metrics;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Template.Application;
 
 namespace Template.Api.Middlewares
 {
@@ -38,7 +38,7 @@ namespace Template.Api.Middlewares
 					? LogLevel.Error
 					: LogLevel.Information;
 				_logger.Log(logLevel, $"Request took {elapsedMilliseconds} ms");
-				_metrics.Measure.Timer.Time(ApiMetricsRegistry.HttpRequestHandlingTimer, elapsedMilliseconds);
+				_metrics.MeasureTime(ApiMetricsRegistry.HttpRequestHandlingTimer, elapsedMilliseconds);
 			}
 			catch (Exception)
 			{

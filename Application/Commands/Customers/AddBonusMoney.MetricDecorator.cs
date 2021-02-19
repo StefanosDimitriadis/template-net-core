@@ -1,11 +1,9 @@
-﻿using App.Metrics;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Template.Application.Commands.Customers;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Commands.Customers
 {
 	internal class AddBonusMoneyMetricDecorator : IRequestHandler<AddBonusMoneyCommand, AddBonusMoneyCommandResponse>
 	{
@@ -26,7 +24,7 @@ namespace Template.Application.Decorators
 			{
 				var commandResponse = await _requestHandler.Handle(command, cancellationToken);
 				if (commandResponse.Errors != null)
-					_metrics.Measure.Counter.Increment(ApplicationMetricsRegistry.AwardedBonusAmountCounter, Convert.ToInt64(command.Money));
+					_metrics.IncreaseCounter(ApplicationMetricsRegistry.AwardedBonusAmountCounter, Convert.ToInt64(command.Money));
 				return commandResponse;
 			}
 			catch (Exception)

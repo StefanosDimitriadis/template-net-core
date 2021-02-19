@@ -10,6 +10,7 @@ namespace Template.Application
 			var executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
 			containerBuilder.RegisterMediatR(executingAssembly);
 			containerBuilder.RegisterDecorators();
+			containerBuilder.RegisterType<Metrics>().As<IMetrics>().SingleInstance();
 		}
 	}
 }

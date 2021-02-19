@@ -1,9 +1,10 @@
-﻿using App.Metrics;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 using Template.Api.HealthChecks;
+using Template.Application;
 using Template.Application.Services;
+using static Template.Application.MetricsExtensions;
 
 namespace Template.Api.Middlewares
 {
@@ -43,22 +44,22 @@ namespace Template.Api.Middlewares
 			try
 			{
 				if (isCustomMiddlewareEndpoint)
-					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareCounter);
+					_metrics.IncreaseCounter(ApiMetricsRegistry.HttpRequestCustomMiddlewareCounter);
 				else
-					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestTotalCounter);
+					_metrics.IncreaseCounter(ApiMetricsRegistry.HttpRequestTotalCounter);
 
 				await _nextRequestDelegate(httpContext);
 				if (isCustomMiddlewareEndpoint)
-					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareSuccessfulHandlingCounter);
+					_metrics.IncreaseCounter(ApiMetricsRegistry.HttpRequestCustomMiddlewareSuccessfulHandlingCounter);
 				else
-					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestSuccessfulHandlingCounter);
+					_metrics.IncreaseCounter(ApiMetricsRegistry.HttpRequestSuccessfulHandlingCounter);
 			}
 			catch (Exception)
 			{
 				if (isCustomMiddlewareEndpoint)
-					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareUnsuccessfulHandlingCounter);
+					_metrics.IncreaseCounter(ApiMetricsRegistry.HttpRequestCustomMiddlewareUnsuccessfulHandlingCounter);
 				else
-					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestUnsuccessfulHandlingCounter);
+					_metrics.IncreaseCounter(ApiMetricsRegistry.HttpRequestUnsuccessfulHandlingCounter);
 				throw;
 			}
 		}

@@ -1,11 +1,9 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Template.Application.Persistence;
 using Template.Application.PersistenceCommands;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Persistence
 {
 	internal class CommandPersistenceMetricDecorator<TId, TPersistCommand> : ICommandPersistence<TId, TPersistCommand>
 		where TPersistCommand : BasePersistenceCommand<TId>
@@ -28,7 +26,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				await _commandPersistence.Persist(persistCommand);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.CommandPersistenceTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.CommandPersistenceTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{

@@ -1,5 +1,4 @@
-﻿using App.Metrics;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -9,8 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Template.Application;
 using Template.Infrastructure;
-using Template.Shared;
 
 namespace Template.Api.Middlewares
 {
@@ -40,10 +39,10 @@ namespace Template.Api.Middlewares
 			}
 			catch (ValidationException validationException)
 			{
-				_metrics.Measure.Counter.Increment(ApiMetricsRegistry.ValidationExceptionCounter);
+				_metrics.IncreaseCounter(ApiMetricsRegistry.ValidationExceptionCounter);
 				_logger.LogError(validationException, "A validation error occurred");
 				httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-				var errors = validationException.Errors.Select(_validationFailure => new Error(_validationFailure.ErrorMessage));
+				var errors = validationException.Errors.Select(_validationFailure => new Shared.Error(_validationFailure.ErrorMessage));
 				var jsonSerializerSettings = new CustomJsonSerializerSettings
 				{
 					Formatting = Formatting.Indented,
@@ -59,12 +58,12 @@ namespace Template.Api.Middlewares
 			}
 			catch (Exception exception)
 			{
-				_metrics.Measure.Counter.Increment(ApiMetricsRegistry.ExceptionCounter);
+				_metrics.IncreaseCounter(ApiMetricsRegistry.ExceptionCounter);
 				_logger.LogError(exception, "An error occurred");
 				httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-				var errors = new Error[]
+				var errors = new Shared.Error[]
 				{
-					new Error("An error occurred")
+					new Shared.Error("An error occurred")
 				};
 				await httpContext.WriteErrorResponse(errors);
 			}

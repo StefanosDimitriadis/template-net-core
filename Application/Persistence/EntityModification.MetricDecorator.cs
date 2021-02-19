@@ -1,11 +1,9 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Template.Application.Persistence;
 using Template.Domain.Entities;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Persistence
 {
 	internal class EntityModificationPersistenceMetricDecorator<TEventId, TId, TEntity, TModification> : IEntityModificationPersistence<TEventId, TId, TEntity, TModification>
 		where TEntity : BaseEntity<TId>
@@ -29,7 +27,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				await _entityModificationPersistence.Persist(modification);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.EntityModificationPersistenceTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.EntityModificationPersistenceTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{

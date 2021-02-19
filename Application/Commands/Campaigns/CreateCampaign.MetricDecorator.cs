@@ -1,11 +1,10 @@
-﻿using App.Metrics;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Template.Application.Persistence;
 using Template.Domain.Entities;
 using Template.Domain.Entities.Campaigns;
 
-namespace Template.Application.Decorators
+namespace Template.Application.Commands.Campaigns
 {
 	internal class CreateCampaignMetricDecorator : IEntityModificationPersistence<long, long, Campaign, CreateModification<long, long, Campaign>>
 	{
@@ -25,7 +24,7 @@ namespace Template.Application.Decorators
 			try
 			{
 				await _entityModificationPersistence.Persist(modification);
-				_metrics.Measure.Counter.Increment(ApplicationMetricsRegistry.CreatedCampaignsCounter);
+				_metrics.IncreaseCounter(ApplicationMetricsRegistry.CreatedCampaignsCounter);
 			}
 			catch (Exception)
 			{

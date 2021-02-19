@@ -1,5 +1,4 @@
-﻿using App.Metrics;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -28,7 +27,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				var queryResponse = await _queryHandler.Handle(query, cancellationToken);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.QueryHandlerTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.QueryHandlerTimer, stopwatch.ElapsedMilliseconds);
 				return queryResponse;
 			}
 			catch (Exception)
@@ -59,7 +58,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				var commandResponse = await _commandHandler.Handle(command, cancellationToken);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.CommandHandlerTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.CommandHandlerTimer, stopwatch.ElapsedMilliseconds);
 				return commandResponse;
 			}
 			catch (Exception)
@@ -90,7 +89,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				await _notificationHandler.Handle(notification, cancellationToken);
 				stopwatch.Stop();
-				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.NotificationHandlerTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.MeasureTime(ApplicationMetricsRegistry.NotificationHandlerTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{
