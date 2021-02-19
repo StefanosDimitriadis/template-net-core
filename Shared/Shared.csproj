@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AssemblyName>Template.Shared</AssemblyName>
+		<RootNamespace>Template.Shared</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="9.4.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="NSwag.Annotations" Version="13.9.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectCapability Include="DynamicDependentFile" />
+		<ProjectCapability Include="DynamicFileNesting" />
+	</ItemGroup>
+</Project>

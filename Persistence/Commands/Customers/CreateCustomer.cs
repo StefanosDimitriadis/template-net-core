@@ -1,0 +1,24 @@
+﻿using System.Threading.Tasks;
+using Template.Application.Persistence;
+using Template.Application.Persistence.Storages;
+using Template.Domain.Entities;
+using Template.Domain.Entities.Customers;
+
+namespace Template.Persistence.Commands.Customers
+{
+	internal class CreateCustomerModificationPersistence : IEntityModificationPersistence<long, long, Customer, CreateModification<long, long, Customer>>
+	{
+		private readonly ICustomerCommandStorage _customerCommandStorage;
+
+		public CreateCustomerModificationPersistence(ICustomerCommandStorage customerCommandStorage)
+		{
+			_customerCommandStorage = customerCommandStorage;
+		}
+
+		public async Task Persist(CreateModification<long, long, Customer> modification)
+		{
+			_customerCommandStorage.Create(modification.Entity);
+			await _customerCommandStorage.SaveChangesAsync();
+		}
+	}
+}

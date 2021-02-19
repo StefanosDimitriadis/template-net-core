@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AssemblyName>Template.Domain</AssemblyName>
+		<RootNamespace>Template.Domain</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="IdGen" Version="3.0.0" />
+		<PackageReference Include="MediatR" Version="9.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectCapability Include="DynamicDependentFile" />
+		<ProjectCapability Include="DynamicFileNesting" />
+	</ItemGroup>
+</Project>

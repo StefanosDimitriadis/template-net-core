@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AssemblyName>Template.Application</AssemblyName>
+		<RootNamespace>Template.Application</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Decorators\CreateCampaignMetric.cs" />
+	  <Compile Remove="Decorators\CreateCustomerMetric.cs" />
+	  <Compile Remove="Decorators\DeleteCustomerMetric.cs" />
+	  <Compile Remove="Decorators\DistributedCacheWrapperMetric.cs" />
+	  <Compile Remove="Decorators\EntityModificationPersistenceMetric.cs" />
+	  <Compile Remove="Decorators\EntityRetrievalPersistenceMetric.cs" />
+	  <Compile Remove="Decorators\HandlerMetric.cs" />
+	  <Compile Remove="Decorators\MessageBrokerMetric.cs" />
+	  <Compile Remove="Decorators\QueryRetrievalPersistenceMetric.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--<PackageReference Include="App.Metrics.Abstractions" Version="4.1.0" />-->
+		<PackageReference Include="Autofac" Version="6.1.0" />
+		<PackageReference Include="MassTransit" Version="7.1.2" />
+		<PackageReference Include="MediatR" Version="9.0.0" />
+		<PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Domain\Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectCapability Include="DynamicDependentFile" />
+		<ProjectCapability Include="DynamicFileNesting" />
+	</ItemGroup>
+</Project>
