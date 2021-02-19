@@ -1,4 +1,4 @@
-﻿//using App.Metrics;
+﻿using App.Metrics;
 using System;
 using System.Threading.Tasks;
 using Template.Application.Persistence;
@@ -10,14 +10,14 @@ namespace Template.Application.Decorators
 	internal class CreateBonusMetricDecorator : IEntityModificationPersistence<long, long, Bonus, CreateModification<long, long, Bonus>>
 	{
 		private readonly IEntityModificationPersistence<long, long, Bonus, CreateModification<long, long, Bonus>> _entityModificationPersistence;
-		//private readonly IMetrics _metrics;
+		private readonly IMetrics _metrics;
 
 		public CreateBonusMetricDecorator(
-			IEntityModificationPersistence<long, long, Bonus, CreateModification<long, long, Bonus>> entityModificationPersistence/*,*/
-			/*IMetrics metrics*/)
+			IEntityModificationPersistence<long, long, Bonus, CreateModification<long, long, Bonus>> entityModificationPersistence,
+			IMetrics metrics)
 		{
 			_entityModificationPersistence = entityModificationPersistence;
-			//_metrics = metrics;
+			_metrics = metrics;
 		}
 
 		public async Task Persist(CreateModification<long, long, Bonus> modification)
@@ -25,7 +25,7 @@ namespace Template.Application.Decorators
 			try
 			{
 				await _entityModificationPersistence.Persist(modification);
-				//_metrics.Measure.Counter.Increment(ApplicationMetricsRegistry.CreatedBonusesCounter);
+				_metrics.Measure.Counter.Increment(ApplicationMetricsRegistry.CreatedBonusesCounter);
 			}
 			catch (Exception)
 			{

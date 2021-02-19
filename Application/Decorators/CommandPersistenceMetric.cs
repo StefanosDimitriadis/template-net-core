@@ -1,4 +1,4 @@
-﻿//using App.Metrics;
+﻿using App.Metrics;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -11,14 +11,14 @@ namespace Template.Application.Decorators
 		where TPersistCommand : BasePersistenceCommand<TId>
 	{
 		private readonly ICommandPersistence<TId, TPersistCommand> _commandPersistence;
-		//private readonly IMetrics _metrics;
+		private readonly IMetrics _metrics;
 
 		public CommandPersistenceMetricDecorator(
-			ICommandPersistence<TId, TPersistCommand> commandPersistence/*,*/
-			/*IMetrics metrics*/)
+			ICommandPersistence<TId, TPersistCommand> commandPersistence,
+			IMetrics metrics)
 		{
 			_commandPersistence = commandPersistence;
-			//_metrics = metrics;
+			_metrics = metrics;
 		}
 
 		public async Task Persist(TPersistCommand persistCommand)
@@ -28,7 +28,7 @@ namespace Template.Application.Decorators
 				var stopwatch = Stopwatch.StartNew();
 				await _commandPersistence.Persist(persistCommand);
 				stopwatch.Stop();
-				//_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.CommandPersistenceTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.CommandPersistenceTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{

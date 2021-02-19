@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net5.0</TargetFramework>
 		<AssemblyName>Template.Persistence</AssemblyName>
 		<RootNamespace>Template.Persistence</RootNamespace>
 	</PropertyGroup>
@@ -8,9 +8,9 @@
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.1.0" />
 		<PackageReference Include="Dapper" Version="2.0.78" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.12" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.12" />
-		<PackageReference Include="MongoDB.Driver" Version="2.11.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.3" />
+		<PackageReference Include="MongoDB.Driver" Version="2.11.6" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
 	</ItemGroup>
 

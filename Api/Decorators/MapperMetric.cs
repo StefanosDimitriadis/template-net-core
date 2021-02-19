@@ -1,4 +1,4 @@
-﻿//using App.Metrics;
+﻿using App.Metrics;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -11,14 +11,14 @@ namespace Template.Api.Decorators
 	public class MapperMetricDecorator : IMapper
 	{
 		private readonly IMapper _mapper;
-		//private readonly IMetrics _metrics;
+		private readonly IMetrics _metrics;
 
 		public MapperMetricDecorator(
-			IMapper mapper/*,*/
-			/*IMetrics metrics*/)
+			IMapper mapper,
+			IMetrics metrics)
 		{
 			_mapper = mapper;
-			//_metrics = metrics;
+			_metrics = metrics;
 		}
 
 		public IConfigurationProvider ConfigurationProvider => throw new NotImplementedException();
@@ -30,7 +30,7 @@ namespace Template.Api.Decorators
 			var stopwatch = Stopwatch.StartNew();
 			var destination = _mapper.Map<TSource, TDestination>(source);
 			stopwatch.Stop();
-			//_metrics.Measure.Timer.Time(ApiMetricsRegistry.MapTimer, stopwatch.ElapsedMilliseconds);
+			_metrics.Measure.Timer.Time(ApiMetricsRegistry.MapTimer, stopwatch.ElapsedMilliseconds);
 			return destination;
 		}
 

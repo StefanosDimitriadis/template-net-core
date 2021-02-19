@@ -1,4 +1,4 @@
-﻿//using App.Metrics;
+﻿using App.Metrics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,18 +11,18 @@ namespace Template.Api.Middlewares
 	{
 		private readonly RequestDelegate _nextRequestDelegate;
 		private readonly HttpRequestElapsedTimeMeasuringSettings _httpRequestElapsedTimeMeasuringSettings;
-		//private readonly IMetrics _metrics;
+		private readonly IMetrics _metrics;
 		private readonly ILogger<HttpRequestElapsedTimeMeasuringMiddleware> _logger;
 
 		public HttpRequestElapsedTimeMeasuringMiddleware(
 			RequestDelegate nextRequestDelegate,
 			HttpRequestElapsedTimeMeasuringSettings httpRequestElapsedTimeMeasuringSettings,
-			//IMetrics metrics,
+			IMetrics metrics,
 			ILoggerFactory loggerFactory)
 		{
 			_nextRequestDelegate = nextRequestDelegate;
 			_httpRequestElapsedTimeMeasuringSettings = httpRequestElapsedTimeMeasuringSettings;
-			//_metrics = metrics;
+			_metrics = metrics;
 			_logger = loggerFactory.CreateLogger<HttpRequestElapsedTimeMeasuringMiddleware>();
 		}
 
@@ -38,7 +38,7 @@ namespace Template.Api.Middlewares
 					? LogLevel.Error
 					: LogLevel.Information;
 				_logger.Log(logLevel, $"Request took {elapsedMilliseconds} ms");
-				//_metrics.Measure.Timer.Time(ApiMetricsRegistry.HttpRequestHandlingTimer, elapsedMilliseconds);
+				_metrics.Measure.Timer.Time(ApiMetricsRegistry.HttpRequestHandlingTimer, elapsedMilliseconds);
 			}
 			catch (Exception)
 			{

@@ -21,7 +21,7 @@ namespace Template.Api
 				logger.Info("Application starting");
 				hostBuilder.UseAutofacServiceProviderFactory();
 				hostBuilder.ConfigureWebHost();
-				//hostBuilder.ConfigureAppMetricsHosting();
+				hostBuilder.ConfigureAppMetricsHosting();
 				host = hostBuilder.Build();
 				await host.RunAsync();
 			}

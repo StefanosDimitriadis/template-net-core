@@ -1,4 +1,4 @@
-﻿//using App.Metrics;
+﻿using App.Metrics;
 using GreenPipes;
 using MassTransit;
 using System;
@@ -10,11 +10,11 @@ namespace Template.Application.Services
 	public class MessageBrokerMetricFilter<TMessageBrokerMessage> : IFilter<ConsumeContext<TMessageBrokerMessage>>
 		where TMessageBrokerMessage : BaseMessageBrokerMessage
 	{
-		//private readonly IMetrics _metrics;
+		private readonly IMetrics _metrics;
 
-		public MessageBrokerMetricFilter(/*IMetrics metrics*/)
+		public MessageBrokerMetricFilter(IMetrics metrics)
 		{
-			//_metrics = metrics;
+			_metrics = metrics;
 		}
 
 		public void Probe(ProbeContext probeContext) { }
@@ -26,7 +26,7 @@ namespace Template.Application.Services
 				var stopwatch = Stopwatch.StartNew();
 				await nextPipe.Send(consumeContext);
 				stopwatch.Stop();
-				//_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.MessageBrokerConsumerTimer, stopwatch.ElapsedMilliseconds);
+				_metrics.Measure.Timer.Time(ApplicationMetricsRegistry.MessageBrokerConsumerTimer, stopwatch.ElapsedMilliseconds);
 			}
 			catch (Exception)
 			{

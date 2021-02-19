@@ -1,4 +1,4 @@
-﻿//using App.Metrics;
+﻿using App.Metrics;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
@@ -10,18 +10,18 @@ namespace Template.Api.Middlewares
 	internal class HttpRequestCountingMiddleware
 	{
 		private readonly RequestDelegate _nextRequestDelegate;
-		//private readonly IMetrics _metrics;
+		private readonly IMetrics _metrics;
 		private readonly string[] _customMiddlewareEndpoints;
 
 		public HttpRequestCountingMiddleware(
 			RequestDelegate nextRequestDelegate,
-			//IMetrics metrics,
+			IMetrics metrics,
 			SwaggerSettings swaggerSettings,
 			SchedulerSettings schedulerSettings,
 			HealthCheckSettings healthCheckSettings)
 		{
 			_nextRequestDelegate = nextRequestDelegate;
-			//_metrics = metrics;
+			_metrics = metrics;
 			_customMiddlewareEndpoints = new string[]
 			{
 				Endpoints.Metrics,
@@ -42,23 +42,23 @@ namespace Template.Api.Middlewares
 
 			try
 			{
-				//if (isCustomMiddlewareEndpoint)
-				//	_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareCounter);
-				//else
-				//	_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestTotalCounter);
+				if (isCustomMiddlewareEndpoint)
+					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareCounter);
+				else
+					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestTotalCounter);
 
 				await _nextRequestDelegate(httpContext);
-				//if (isCustomMiddlewareEndpoint)
-				//	_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareSuccessfulHandlingCounter);
-				//else
-				//	_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestSuccessfulHandlingCounter);
+				if (isCustomMiddlewareEndpoint)
+					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareSuccessfulHandlingCounter);
+				else
+					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestSuccessfulHandlingCounter);
 			}
 			catch (Exception)
 			{
-				//if (isCustomMiddlewareEndpoint)
-				//	_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareUnsuccessfulHandlingCounter);
-				//else
-				//	_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestUnsuccessfulHandlingCounter);
+				if (isCustomMiddlewareEndpoint)
+					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestCustomMiddlewareUnsuccessfulHandlingCounter);
+				else
+					_metrics.Measure.Counter.Increment(ApiMetricsRegistry.HttpRequestUnsuccessfulHandlingCounter);
 				throw;
 			}
 		}

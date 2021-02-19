@@ -1,5 +1,5 @@
-﻿//using App.Metrics.AspNetCore;
-//using App.Metrics.Formatters.Prometheus;
+﻿using App.Metrics.AspNetCore;
+using App.Metrics.Formatters.Prometheus;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -102,17 +102,17 @@ namespace Template.Api
 
 		internal static void ConfigureAppMetricsHosting(this IHostBuilder hostBuilder)
 		{
-			//hostBuilder.UseMetrics(_metricsWebHostOptions => _metricsWebHostOptions.EndpointOptions = _metricEndpointsOptions =>
-			//{
-			//	_metricEndpointsOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
-			//	_metricEndpointsOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
-			//	_metricEndpointsOptions.EnvironmentInfoEndpointEnabled = false;
-			//});
-			//hostBuilder.ConfigureAppMetricsHostingConfiguration(_metricsEndpointsHostingOptions =>
-			//{
-			//	_metricsEndpointsHostingOptions.MetricsEndpoint = Endpoints.Metrics;
-			//	_metricsEndpointsHostingOptions.MetricsTextEndpoint = Endpoints.MetricsText;
-			//});
+			hostBuilder.UseMetrics(_metricsWebHostOptions => _metricsWebHostOptions.EndpointOptions = _metricEndpointsOptions =>
+			{
+				_metricEndpointsOptions.MetricsTextEndpointOutputFormatter = new MetricsPrometheusTextOutputFormatter();
+				_metricEndpointsOptions.MetricsEndpointOutputFormatter = new MetricsPrometheusProtobufOutputFormatter();
+				_metricEndpointsOptions.EnvironmentInfoEndpointEnabled = false;
+			});
+			hostBuilder.ConfigureAppMetricsHostingConfiguration(_metricsEndpointsHostingOptions =>
+			{
+				_metricsEndpointsHostingOptions.MetricsEndpoint = Endpoints.Metrics;
+				_metricsEndpointsHostingOptions.MetricsTextEndpoint = Endpoints.MetricsText;
+			});
 		}
 	}
 
@@ -316,14 +316,14 @@ namespace Template.Api
 
 		internal static void AddMetricServices(this IServiceCollection services)
 		{
-			//services.AddMetrics();
-			//services.AddMetricsEndpoints();
-			//services.AddMetricsReportingHostedService((sender, eventArgs) =>
-			//{
-			//	var logger = LogManager.GetCurrentClassLogger();
-			//	logger.Error(eventArgs.Exception);
-			//});
-			//services.AddMetricsTrackingMiddleware();
+			services.AddMetrics();
+			services.AddMetricsEndpoints();
+			services.AddMetricsReportingHostedService((sender, eventArgs) =>
+			{
+				var logger = LogManager.GetCurrentClassLogger();
+				logger.Error(eventArgs.Exception);
+			});
+			services.AddMetricsTrackingMiddleware();
 		}
 
 		internal static void AddSchedulerServices(this IServiceCollection services)
@@ -350,7 +350,7 @@ namespace Template.Api
 			applicationBuilder.UseMiddleware<ExtraLogInfoWeavingMiddleware>();
 			applicationBuilder.UseMiddleware<HttpRequestElapsedTimeMeasuringMiddleware>();
 			applicationBuilder.UseRouting();
-			//applicationBuilder.UseMetricsMiddlewares();
+			applicationBuilder.UseMetricsMiddlewares();
 			applicationBuilder.UseEndpoints(_endpointRouteBuilder =>
 			{
 				_endpointRouteBuilder.MapControllers();
@@ -373,14 +373,14 @@ namespace Template.Api
 
 		private static void UseMetricsMiddlewares(this IApplicationBuilder applicationBuilder)
 		{
-			//applicationBuilder.UseMetricsEndpoint();
-			//applicationBuilder.UseMetricsTextEndpoint();
-			//applicationBuilder.UseMetricsActiveRequestMiddleware();
-			//applicationBuilder.UseMetricsApdexTrackingMiddleware();
-			//applicationBuilder.UseMetricsErrorTrackingMiddleware();
-			//applicationBuilder.UseMetricsOAuth2TrackingMiddleware();
-			//applicationBuilder.UseMetricsPostAndPutSizeTrackingMiddleware();
-			//applicationBuilder.UseMetricsRequestTrackingMiddleware();
+			applicationBuilder.UseMetricsEndpoint();
+			applicationBuilder.UseMetricsTextEndpoint();
+			applicationBuilder.UseMetricsActiveRequestMiddleware();
+			applicationBuilder.UseMetricsApdexTrackingMiddleware();
+			applicationBuilder.UseMetricsErrorTrackingMiddleware();
+			applicationBuilder.UseMetricsOAuth2TrackingMiddleware();
+			applicationBuilder.UseMetricsPostAndPutSizeTrackingMiddleware();
+			applicationBuilder.UseMetricsRequestTrackingMiddleware();
 		}
 
 		private static void UseHangfireMiddleware(this IApplicationBuilder applicationBuilder)

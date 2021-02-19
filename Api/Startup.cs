@@ -25,7 +25,7 @@ namespace Template.Api
 			services.AddMessageBrokerServices();
 			services.AddHealthCheckServices();
 			services.AddHealthCheckUiServices();
-			//services.AddMetricServices();
+			services.AddMetricServices();
 			services.AddSchedulerServices();
 		}
 
