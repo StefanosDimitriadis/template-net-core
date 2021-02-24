@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 using Template.Application.Commands;
 using Template.Application.Commands.Bonuses;
 using Template.Application.Commands.Campaigns;
@@ -51,8 +52,8 @@ namespace Template.Application
 			services.AddMetricsEndpoints();
 			services.AddMetricsReportingHostedService((sender, eventArgs) =>
 			{
-				var logger = LogManager.GetCurrentClassLogger();
-				logger.Error(eventArgs.Exception);
+				var logger = LogManager.GetCurrentClassLogger<UnobservedTaskExceptionEventArgs>();
+				logger.Error(eventArgs.Exception, eventArgs.Exception.Message);
 			});
 			services.AddMetricsTrackingMiddleware();
 		}

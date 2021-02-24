@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Web;
+using Serilog;
 
 namespace Template.Api.DIRegistrations
 {
 	internal static class LoggerDIRegistration
 	{
-		internal static void UseNlog(this IHostBuilder hostBuilder)
+		internal static void UseLogging(this IHostBuilder hostBuilder)
 		{
-			hostBuilder.UseNLog();
+			hostBuilder.UseSerilog();
 		}
 
 		internal static void AddLoggingServices(this IServiceCollection services)
@@ -17,7 +17,7 @@ namespace Template.Api.DIRegistrations
 			services.AddLogging(_loggingBuilder =>
 			{
 				_loggingBuilder.ClearProviders();
-				_loggingBuilder.AddNLog(configFileName: "nlog.config");
+				_loggingBuilder.AddSerilog();
 			});
 		}
 	}

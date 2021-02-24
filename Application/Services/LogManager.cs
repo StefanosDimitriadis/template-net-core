@@ -4,12 +4,12 @@
 	{
 		public static void Shutdown()
 		{
-			NLog.LogManager.Shutdown();
+			Serilog.Log.CloseAndFlush();
 		}
 
-		public static NLog.Logger GetCurrentClassLogger()
+		public static Serilog.ILogger GetCurrentClassLogger<TCurrentClass>()
 		{
-			return NLog.LogManager.GetCurrentClassLogger();
+			return Serilog.Log.Logger.ForContext<TCurrentClass>();
 		}
 	}
 }

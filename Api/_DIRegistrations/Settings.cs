@@ -54,7 +54,7 @@ namespace Template.Api.DIRegistrations
 				}
 				catch (Exception exception)
 				{
-					var logger = LogManager.GetCurrentClassLogger();
+					var logger = LogManager.GetCurrentClassLogger<TSettings>();
 					logger.Error(exception, $"Exception raised while changing the application settings to [{JsonConvert.SerializeObject(_settings)}]");
 					throw;
 				}

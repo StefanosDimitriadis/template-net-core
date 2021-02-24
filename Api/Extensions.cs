@@ -74,7 +74,7 @@ namespace Template.Api
 					{
 						if (args.CurrentObject == args.ErrorContext.OriginalObject)
 						{
-							var logger = LogManager.GetCurrentClassLogger();
+							var logger = LogManager.GetCurrentClassLogger<Newtonsoft.Json.Serialization.ErrorEventArgs>();
 							logger.Error(args.ErrorContext.Error, $"Error in serializer for {args.ErrorContext.Member} at {args.ErrorContext.Path}");
 						}
 					};
