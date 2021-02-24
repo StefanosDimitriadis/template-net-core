@@ -37,7 +37,7 @@ namespace Template.Infrastructure
 			{
 				if (args.CurrentObject == args.ErrorContext.OriginalObject)
 				{
-					var logger = LogManager.GetCurrentClassLogger();
+					var logger = LogManager.GetCurrentClassLogger(projectName: nameof(Infrastructure), className: nameof(CustomJsonSerializerSettings));
 					logger.Error(args.ErrorContext.Error, $"Error in serializer for {args.ErrorContext.Member} at {args.ErrorContext.Path}");
 				}
 			};

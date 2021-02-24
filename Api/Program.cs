@@ -15,11 +15,11 @@ namespace Template.Api
 		{
 			//TODO Testing
 			var host = default(IHost);
-			var logger = LogManager.GetCurrentClassLogger();
+			var logger = LogManager.GetCurrentClassLogger(projectName: nameof(Api), className: nameof(Program));
 			try
 			{
 				var hostBuilder = Host.CreateDefaultBuilder(args);
-				hostBuilder.UseNlog();
+				hostBuilder.UseLogging();
 				logger.Info("Application starting");
 				hostBuilder.UseAutofacServiceProviderFactory();
 				hostBuilder.ConfigureWebHost();

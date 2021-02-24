@@ -7,7 +7,7 @@ namespace Template.Api.DIRegistrations
 {
 	internal static class LoggerDIRegistration
 	{
-		internal static void UseNlog(this IHostBuilder hostBuilder)
+		internal static void UseLogging(this IHostBuilder hostBuilder)
 		{
 			hostBuilder.UseNLog();
 		}

@@ -51,7 +51,7 @@ namespace Template.Application
 			services.AddMetricsEndpoints();
 			services.AddMetricsReportingHostedService((sender, eventArgs) =>
 			{
-				var logger = LogManager.GetCurrentClassLogger();
+				var logger = LogManager.GetCurrentClassLogger(projectName: nameof(Application), className: nameof(MetricsExtensions));
 				logger.Error(eventArgs.Exception);
 			});
 			services.AddMetricsTrackingMiddleware();

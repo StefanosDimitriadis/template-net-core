@@ -7,9 +7,9 @@
 			NLog.LogManager.Shutdown();
 		}
 
-		public static NLog.Logger GetCurrentClassLogger()
+		public static NLog.Logger GetCurrentClassLogger(string projectName, string className)
 		{
-			return NLog.LogManager.GetCurrentClassLogger();
+			return NLog.LogManager.GetLogger($"{nameof(projectName)}.{nameof(className)}");
 		}
 	}
 }
