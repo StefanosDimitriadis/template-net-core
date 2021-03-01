@@ -30,17 +30,18 @@ namespace Template.Api.HealthChecks
 
 		internal static void AddHealthCheckUiServices(this IServiceCollection services)
 		{
-			var serviceScope = services.BuildServiceProvider().CreateScope();
+			using var serviceProvider = services.BuildServiceProvider();
+			using var serviceScope = serviceProvider.CreateScope();
 			var healthCheckSettings = serviceScope.ServiceProvider.GetRequiredService<HealthCheckSettings>();
 			var assemblyPath = Assembly.GetExecutingAssembly().Location;
 			var assemblyDirectory = Path.GetDirectoryName(assemblyPath);
 			var healthChecksUIStorageConnectionStringTemplate = healthCheckSettings.StorageConnectionString;
 			var healthChecksUIStorageConnectionString = string.Format(healthChecksUIStorageConnectionStringTemplate, assemblyDirectory);
 			services.AddHealthChecksUI(_settings =>
-			{
-				_settings.SetEvaluationTimeInSeconds(healthCheckSettings.PollingIntervalInSeconds);
-				_settings.AddHealthCheckEndpoint(healthCheckSettings.HealthChecks[0].Name, healthCheckSettings.HealthChecks[0].Uri);
-			})
+				{
+					_settings.SetEvaluationTimeInSeconds(healthCheckSettings.PollingIntervalInSeconds);
+					_settings.AddHealthCheckEndpoint(healthCheckSettings.HealthChecks[0].Name, healthCheckSettings.HealthChecks[0].Uri);
+				})
 				.AddSqliteStorage(healthChecksUIStorageConnectionString);
 		}
 

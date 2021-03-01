@@ -44,7 +44,8 @@ namespace Template.Api.DIRegistrations
 		{
 			services.Configure<TSettings>(configuration.GetSection(settingsName));
 			services.AddTransient(_serviceProvider => _serviceProvider.GetRequiredService<IOptionsMonitor<TSettings>>().CurrentValue);
-			services.BuildServiceProvider().GetRequiredService<IOptionsMonitor<TSettings>>().OnChange(_settings =>
+			using var serviceProvider = services.BuildServiceProvider();
+			serviceProvider.GetRequiredService<IOptionsMonitor<TSettings>>().OnChange(_settings =>
 			{
 				try
 				{
