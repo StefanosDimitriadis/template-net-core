@@ -1,11 +1,11 @@
 ﻿using Dapper;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Template.Application.Persistence.Storages;
 using Template.Domain.Entities.Customers;
 using Template.Persistence.DatabaseContexts;
+using Template.Persistence.Services;
 using Template.Persistence.Settings;
 
 [assembly: InternalsVisibleTo("Template.Persistence.Tests")]
@@ -46,25 +46,29 @@ namespace Template.Persistence.Storages
 
 	internal class CustomerQueryStorage : ICustomerQueryStorage
 	{
-		private readonly string _customerDatabaseConnectionString;
+		private readonly ISqlConnectionService _sqlConnectionService;
+		private readonly int _customerDatabaseTimeoutInSeconds;
 
-		public CustomerQueryStorage(DatabaseContextSettings databaseContextSettings)
+		public CustomerQueryStorage(
+			ISqlConnectionService sqlConnectionService,
+			DatabaseContextSettings databaseContextSettings)
 		{
-			_customerDatabaseConnectionString = databaseContextSettings.CustomerDatabaseConnectionString;
+			_sqlConnectionService = sqlConnectionService;
+			_customerDatabaseTimeoutInSeconds = databaseContextSettings.CustomerDatabaseTimeoutInSeconds;
 		}
 
 		public async Task<Customer> Get(long id)
 		{
-			using var dbConnection = new SqlConnection(_customerDatabaseConnectionString);
+			using var dbConnection = _sqlConnectionService.CreateCustomerDatabaseSqlConnection();
 			const string sql = "select * from Customers where Id = @id";
-			return await dbConnection.QuerySingleOrDefaultAsync<Customer>(sql, new { id = id });
+			return await dbConnection.QuerySingleOrDefaultAsync<Customer>(sql, new { id = id }, commandTimeout: _customerDatabaseTimeoutInSeconds);
 		}
 
 		public async Task<Customer[]> Get()
 		{
-			using var dbConnection = new SqlConnection(_customerDatabaseConnectionString);
+			using var dbConnection = _sqlConnectionService.CreateCustomerDatabaseSqlConnection();
 			const string sql = "select * from Customers";
-			return (await dbConnection.QueryAsync<Customer>(sql)).ToArray();
+			return (await dbConnection.QueryAsync<Customer>(sql, commandTimeout: _customerDatabaseTimeoutInSeconds)).ToArray();
 		}
 	}
 }

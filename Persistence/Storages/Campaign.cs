@@ -1,10 +1,10 @@
 ﻿using Dapper;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Template.Application.Persistence.Storages;
 using Template.Domain.Entities.Campaigns;
 using Template.Persistence.DatabaseContexts;
+using Template.Persistence.Services;
 using Template.Persistence.Settings;
 
 namespace Template.Persistence.Storages
@@ -44,18 +44,22 @@ namespace Template.Persistence.Storages
 
 	internal class CampaignQueryStorage : ICampaignQueryStorage
 	{
-		private readonly string _campaignDatabaseConnectionString;
+		private readonly ISqlConnectionService _sqlConnectionService;
+		private readonly int _campaignDatabaseTimeoutInSeconds;
 
-		public CampaignQueryStorage(DatabaseContextSettings databaseContextSettings)
+		public CampaignQueryStorage(
+			ISqlConnectionService sqlConnectionService,
+			DatabaseContextSettings databaseContextSettings)
 		{
-			_campaignDatabaseConnectionString = databaseContextSettings.CampaignDatabaseConnectionString;
+			_sqlConnectionService = sqlConnectionService;
+			_campaignDatabaseTimeoutInSeconds = databaseContextSettings.CampaignDatabaseTimeoutInSeconds;
 		}
 
 		public async Task<Campaign> Get(long id)
 		{
-			using var dbConnection = new SqlConnection(_campaignDatabaseConnectionString);
+			using var dbConnection = _sqlConnectionService.CreateCampaignDatabaseSqlConnection();
 			const string sql = "select * from Campaigns where Id = @id";
-			return (await dbConnection.QueryAsync(sql, new { id = id }))
+			return (await dbConnection.QueryAsync(sql, new { id = id }, commandTimeout: _campaignDatabaseTimeoutInSeconds))
 				.Select(_object =>
 				{
 					return Campaign.Create(_object.Id, _object.BonusMoney, _object.CreatedAt, _object.UpdatedAt, _object.IsDeleted);
@@ -66,9 +70,9 @@ namespace Template.Persistence.Storages
 
 		public async Task<Campaign[]> Get()
 		{
-			using var dbConnection = new SqlConnection(_campaignDatabaseConnectionString);
+			using var dbConnection = _sqlConnectionService.CreateCampaignDatabaseSqlConnection();
 			const string sql = "select * from Campaigns";
-			return (await dbConnection.QueryAsync<Campaign>(sql)).ToArray();
+			return (await dbConnection.QueryAsync<Campaign>(sql, commandTimeout: _campaignDatabaseTimeoutInSeconds)).ToArray();
 		}
 	}
 }

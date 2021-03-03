@@ -9,6 +9,7 @@ namespace Template.Application.Services
 
 		public string Username { get; set; }
 		public string Password { get; set; }
+		public int TimeoutInMilliseconds { get; set; }
 		public string SmtpHost { get; set; }
 		public int SmtpPort { get; set; }
 		public bool SmtpUseSsl { get; set; }
@@ -30,6 +31,9 @@ namespace Template.Application.Services
 
 			if (string.IsNullOrWhiteSpace(Password))
 				throw new ArgumentException(message: "Password cannot be null", paramName: nameof(Password));
+
+			if (TimeoutInMilliseconds < 1)
+				throw new ArgumentException(message: "Timeout should be greater than 0", paramName: nameof(TimeoutInMilliseconds));
 
 			try
 			{

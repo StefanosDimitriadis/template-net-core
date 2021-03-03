@@ -12,7 +12,9 @@ namespace Template.Persistence.DatabaseContexts
 			{
 				var serviceScope = _serviceProvider.CreateScope();
 				var databaseContextSettings = serviceScope.ServiceProvider.GetRequiredService<DatabaseContextSettings>();
-				_dbContextOptionsBuilder.UseSqlServer(databaseContextSettings.CampaignDatabaseConnectionString);
+				_dbContextOptionsBuilder.UseSqlServer(
+					databaseContextSettings.CampaignDatabaseConnectionString,
+					_sqlServerDatabaseOptionsBuilderContext => _sqlServerDatabaseOptionsBuilderContext.CommandTimeout(databaseContextSettings.CampaignDatabaseTimeoutInSeconds));
 			});
 		}
 	}

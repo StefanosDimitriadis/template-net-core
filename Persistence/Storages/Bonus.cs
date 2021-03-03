@@ -1,10 +1,10 @@
 ﻿using Dapper;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Template.Application.Persistence.Storages;
 using Template.Domain.Entities.Bonuses;
 using Template.Persistence.DatabaseContexts;
+using Template.Persistence.Services;
 using Template.Persistence.Settings;
 
 namespace Template.Persistence.Storages
@@ -39,25 +39,29 @@ namespace Template.Persistence.Storages
 
 	internal class BonusQueryStorage : IBonusQueryStorage
 	{
-		private readonly string _bonusDatabaseConnectionString;
+		private readonly ISqlConnectionService _sqlConnectionService;
+		private readonly int _bonusDatabaseTimeoutInSeconds;
 
-		public BonusQueryStorage(DatabaseContextSettings databaseContextSettings)
+		public BonusQueryStorage(
+			ISqlConnectionService sqlConnectionService,
+			DatabaseContextSettings databaseContextSettings)
 		{
-			_bonusDatabaseConnectionString = databaseContextSettings.BonusDatabaseConnectionString;
+			_sqlConnectionService = sqlConnectionService;
+			_bonusDatabaseTimeoutInSeconds = databaseContextSettings.BonusDatabaseTimeoutInSeconds;
 		}
 
 		public async Task<Bonus> Get(long id)
 		{
-			using var dbConnection = new SqlConnection(_bonusDatabaseConnectionString);
+			using var dbConnection = _sqlConnectionService.CreateBonusDatabaseSqlConnection();
 			const string sql = "select * from Bonuses where Id = @id";
-			return await dbConnection.QuerySingleOrDefaultAsync<Bonus>(sql, new { id = id });
+			return await dbConnection.QuerySingleOrDefaultAsync<Bonus>(sql, new { id = id }, commandTimeout: _bonusDatabaseTimeoutInSeconds);
 		}
 
 		public async Task<Bonus[]> Get()
 		{
-			using var dbConnection = new SqlConnection(_bonusDatabaseConnectionString);
+			using var dbConnection = _sqlConnectionService.CreateBonusDatabaseSqlConnection();
 			const string sql = "select * from Bonuses";
-			return (await dbConnection.QueryAsync<Bonus>(sql)).ToArray();
+			return (await dbConnection.QueryAsync<Bonus>(sql, commandTimeout: _bonusDatabaseTimeoutInSeconds)).ToArray();
 		}
 	}
 }

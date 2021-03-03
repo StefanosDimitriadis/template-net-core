@@ -127,7 +127,10 @@ namespace Template.Infrastructure.Services
 
 		private async Task SendMessage(MimeMessage message)
 		{
-			using var smtpClient = new SmtpClient();
+			using var smtpClient = new SmtpClient
+			{
+				Timeout = _customerNotifierEmailSettings.TimeoutInMilliseconds
+			};
 			await smtpClient.ConnectAsync(_customerNotifierEmailSettings.SmtpHost, _customerNotifierEmailSettings.SmtpPort, _customerNotifierEmailSettings.SmtpUseSsl);
 			await smtpClient.AuthenticateAsync(_customerNotifierEmailSettings.Username, _customerNotifierEmailSettings.Password);
 			await smtpClient.SendAsync(message);

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Template.Application.Persistence;
 using Template.Application.Persistence.Storages;
+using Template.Persistence.Services;
 using Template.Persistence.Storages;
 
 namespace Template.Persistence
@@ -9,6 +10,7 @@ namespace Template.Persistence
 	{
 		protected override void Load(ContainerBuilder containerBuilder)
 		{
+			containerBuilder.RegisterType<SqlConnectionService>().As<ISqlConnectionService>();
 			RegisterPersistence(containerBuilder);
 			RegisterStorage(containerBuilder);
 		}

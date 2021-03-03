@@ -11,8 +11,11 @@ namespace Template.Persistence.Settings
 		public const string SettingsName = nameof(DatabaseContextSettings);
 
 		public string BonusDatabaseConnectionString { get; set; }
+		public int BonusDatabaseTimeoutInSeconds { get; set; }
 		public string CampaignDatabaseConnectionString { get; set; }
+		public int CampaignDatabaseTimeoutInSeconds { get; set; }
 		public string CustomerDatabaseConnectionString { get; set; }
+		public int CustomerDatabaseTimeoutInSeconds { get; set; }
 		public EventDatabaseSettings EventDatabaseSettings { get; set; }
 
 		public void Validate()
@@ -41,6 +44,15 @@ namespace Template.Persistence.Settings
 					throw new ArgumentException(message: $"Use valid connection string for {connectionString.Key} database", paramName: nameof(connectionString.Value), exception);
 				}
 			}
+
+			if (BonusDatabaseTimeoutInSeconds < 1)
+				throw new ArgumentException(message: "Bonus timeout should be greater than 0", paramName: nameof(BonusDatabaseTimeoutInSeconds));
+
+			if (CampaignDatabaseTimeoutInSeconds < 1)
+				throw new ArgumentException(message: "Campaign timeout should be greater than 0", paramName: nameof(CampaignDatabaseTimeoutInSeconds));
+
+			if (CustomerDatabaseTimeoutInSeconds < 1)
+				throw new ArgumentException(message: "Customer timeout should be greater than 0", paramName: nameof(CustomerDatabaseTimeoutInSeconds));
 
 			try
 			{
