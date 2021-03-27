@@ -44,20 +44,20 @@ namespace Template.Persistence.Storages
 
 	internal class CampaignQueryStorage : ICampaignQueryStorage
 	{
-		private readonly ISqlConnectionService _sqlConnectionService;
+		private readonly IDbConnectionService _dbConnectionService;
 		private readonly int _campaignDatabaseTimeoutInSeconds;
 
 		public CampaignQueryStorage(
-			ISqlConnectionService sqlConnectionService,
+			IDbConnectionService dbConnectionService,
 			DatabaseContextSettings databaseContextSettings)
 		{
-			_sqlConnectionService = sqlConnectionService;
+			_dbConnectionService = dbConnectionService;
 			_campaignDatabaseTimeoutInSeconds = databaseContextSettings.CampaignDatabaseTimeoutInSeconds;
 		}
 
 		public async Task<Campaign> Get(long id)
 		{
-			using var dbConnection = _sqlConnectionService.CreateCampaignDatabaseSqlConnection();
+			using var dbConnection = _dbConnectionService.CreateCampaignDatabaseSqlConnection();
 			const string sql = "select * from Campaigns where Id = @id";
 			return (await dbConnection.QueryAsync(sql, new { id = id }, commandTimeout: _campaignDatabaseTimeoutInSeconds))
 				.Select(_object =>
@@ -70,7 +70,7 @@ namespace Template.Persistence.Storages
 
 		public async Task<Campaign[]> Get()
 		{
-			using var dbConnection = _sqlConnectionService.CreateCampaignDatabaseSqlConnection();
+			using var dbConnection = _dbConnectionService.CreateCampaignDatabaseSqlConnection();
 			const string sql = "select * from Campaigns";
 			return (await dbConnection.QueryAsync<Campaign>(sql, commandTimeout: _campaignDatabaseTimeoutInSeconds)).ToArray();
 		}

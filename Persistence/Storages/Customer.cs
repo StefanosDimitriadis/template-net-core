@@ -46,27 +46,27 @@ namespace Template.Persistence.Storages
 
 	internal class CustomerQueryStorage : ICustomerQueryStorage
 	{
-		private readonly ISqlConnectionService _sqlConnectionService;
+		private readonly IDbConnectionService _dbConnectionService;
 		private readonly int _customerDatabaseTimeoutInSeconds;
 
 		public CustomerQueryStorage(
-			ISqlConnectionService sqlConnectionService,
+			IDbConnectionService dbConnectionService,
 			DatabaseContextSettings databaseContextSettings)
 		{
-			_sqlConnectionService = sqlConnectionService;
+			_dbConnectionService = dbConnectionService;
 			_customerDatabaseTimeoutInSeconds = databaseContextSettings.CustomerDatabaseTimeoutInSeconds;
 		}
 
 		public async Task<Customer> Get(long id)
 		{
-			using var dbConnection = _sqlConnectionService.CreateCustomerDatabaseSqlConnection();
+			using var dbConnection = _dbConnectionService.CreateCustomerDatabaseSqlConnection();
 			const string sql = "select * from Customers where Id = @id";
 			return await dbConnection.QuerySingleOrDefaultAsync<Customer>(sql, new { id = id }, commandTimeout: _customerDatabaseTimeoutInSeconds);
 		}
 
 		public async Task<Customer[]> Get()
 		{
-			using var dbConnection = _sqlConnectionService.CreateCustomerDatabaseSqlConnection();
+			using var dbConnection = _dbConnectionService.CreateCustomerDatabaseSqlConnection();
 			const string sql = "select * from Customers";
 			return (await dbConnection.QueryAsync<Customer>(sql, commandTimeout: _customerDatabaseTimeoutInSeconds)).ToArray();
 		}

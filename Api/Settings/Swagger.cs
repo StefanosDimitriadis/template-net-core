@@ -3,7 +3,7 @@ using Template.Application.Services;
 
 namespace Template.Api.Middlewares
 {
-	public class SwaggerSettings : IValidatable
+	internal class SwaggerSettings : IValidatable
 	{
 		public const string SettingsName = nameof(SwaggerSettings);
 

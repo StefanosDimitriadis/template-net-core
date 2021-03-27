@@ -11,7 +11,7 @@ namespace Template.Application.Services
 		public abstract Task Consume(ConsumeContext<TMessageBrokerMessage> context);
 	}
 
-	public class BonusDeletionMessageBrokerConsumer : BaseMessageBrokerConsumer<BonusDeletionMessage>
+	internal class BonusDeletionMessageBrokerConsumer : BaseMessageBrokerConsumer<BonusDeletionMessage>
 	{
 		private readonly ILogger<BonusDeletionMessage> _logger;
 

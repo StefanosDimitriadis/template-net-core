@@ -8,7 +8,7 @@ using Template.Application;
 
 namespace Template.Api.Mappings
 {
-	public class MappingMetricDecorator : IMapper
+	internal class MappingMetricDecorator : IMapper
 	{
 		private readonly IMapper _mapper;
 		private readonly IMetrics _metrics;

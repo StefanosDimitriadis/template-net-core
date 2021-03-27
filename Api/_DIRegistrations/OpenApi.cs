@@ -14,7 +14,6 @@ namespace Template.Api.DIRegistrations
 				_aspNetCoreOpenApiDocumentGeneratorSettings.GenerateEnumMappingDescription = true;
 				_aspNetCoreOpenApiDocumentGeneratorSettings.SchemaType = SchemaType.OpenApi3;
 				_aspNetCoreOpenApiDocumentGeneratorSettings.DocumentName = "ApiDocumentation";
-				_aspNetCoreOpenApiDocumentGeneratorSettings.GenerateEnumMappingDescription = true;
 				_aspNetCoreOpenApiDocumentGeneratorSettings.PostProcess = _openApiDocument =>
 				{
 					_openApiDocument.Consumes = new string[]

@@ -1,6 +1,6 @@
 ﻿namespace Template.Api.HealthChecks
 {
-	public class MemoryHealthCheckSettings
+	internal class MemoryHealthCheckSettings
 	{
 		public ushort MemoryLimitInMBs { get; set; }
 	}

@@ -6,7 +6,7 @@ using Template.Shared.Customers;
 
 namespace Template.Api.Mappings
 {
-	public class CustomerMapping : Profile
+	internal class CustomerMapping : Profile
 	{
 		public CustomerMapping()
 		{

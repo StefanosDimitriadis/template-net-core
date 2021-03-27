@@ -4,7 +4,7 @@ using Template.Application.Services;
 
 namespace Template.Api.HealthChecks
 {
-	public class HealthCheckSettings : IValidatable
+	internal class HealthCheckSettings : IValidatable
 	{
 		public const string SettingsName = "HealthChecksUI";
 
@@ -50,7 +50,7 @@ namespace Template.Api.HealthChecks
 		}
 	}
 
-	public class HealthCheck
+	internal class HealthCheck
 	{
 		public string Name { get; set; }
 		public string Uri { get; set; }

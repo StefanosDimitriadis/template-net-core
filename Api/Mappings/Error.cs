@@ -2,7 +2,7 @@
 
 namespace Template.Api.Mappings
 {
-	public class ErrorMapping : Profile
+	internal class ErrorMapping : Profile
 	{
 		public ErrorMapping()
 		{

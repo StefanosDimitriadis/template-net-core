@@ -6,7 +6,7 @@ using Template.Shared.Campaigns;
 
 namespace Template.Api.Mappings
 {
-	public class CampaignMapping : Profile
+	internal class CampaignMapping : Profile
 	{
 		public CampaignMapping()
 		{

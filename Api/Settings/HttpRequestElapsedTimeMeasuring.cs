@@ -3,7 +3,7 @@ using Template.Application.Services;
 
 namespace Template.Api.Middlewares
 {
-	public class HttpRequestElapsedTimeMeasuringSettings : IValidatable
+	internal class HttpRequestElapsedTimeMeasuringSettings : IValidatable
 	{
 		public const string SettingsName = nameof(HttpRequestElapsedTimeMeasuringSettings);
 

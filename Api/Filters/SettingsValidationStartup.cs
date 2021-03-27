@@ -6,7 +6,7 @@ using Template.Application.Services;
 
 namespace Template.Api.Filters
 {
-	public class SettingsValidationStartupFilter : IStartupFilter
+	internal class SettingsValidationStartupFilter : IStartupFilter
 	{
 		private readonly IEnumerable<IValidatable> _validatableObjects;
 

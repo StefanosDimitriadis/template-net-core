@@ -13,7 +13,7 @@ using Template.Persistence;
 
 namespace Template.Api
 {
-	public class Startup
+	internal class Startup
 	{
 		private readonly IConfiguration _configuration;
 

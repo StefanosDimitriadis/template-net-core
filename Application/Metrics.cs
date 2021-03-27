@@ -10,7 +10,7 @@ namespace Template.Application
 		void DecreaseCounter(CounterOptions counter, long value = 1);
 	}
 
-	public class Metrics : IMetrics
+	internal class Metrics : IMetrics
 	{
 		private readonly App.Metrics.IMetrics _metrics;
 

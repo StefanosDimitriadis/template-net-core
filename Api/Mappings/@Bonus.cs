@@ -6,7 +6,7 @@ using Template.Shared.Bonuses;
 
 namespace Template.Api.Mappings
 {
-	public class BonusMapping : Profile
+	internal class BonusMapping : Profile
 	{
 		public BonusMapping()
 		{

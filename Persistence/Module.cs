@@ -10,7 +10,7 @@ namespace Template.Persistence
 	{
 		protected override void Load(ContainerBuilder containerBuilder)
 		{
-			containerBuilder.RegisterType<SqlConnectionService>().As<ISqlConnectionService>();
+			containerBuilder.RegisterType<DbConnectionService>().As<IDbConnectionService>();
 			RegisterPersistence(containerBuilder);
 			RegisterStorage(containerBuilder);
 		}

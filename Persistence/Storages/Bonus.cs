@@ -39,27 +39,27 @@ namespace Template.Persistence.Storages
 
 	internal class BonusQueryStorage : IBonusQueryStorage
 	{
-		private readonly ISqlConnectionService _sqlConnectionService;
+		private readonly IDbConnectionService _dbConnectionService;
 		private readonly int _bonusDatabaseTimeoutInSeconds;
 
 		public BonusQueryStorage(
-			ISqlConnectionService sqlConnectionService,
+			IDbConnectionService dbConnectionService,
 			DatabaseContextSettings databaseContextSettings)
 		{
-			_sqlConnectionService = sqlConnectionService;
+			_dbConnectionService = dbConnectionService;
 			_bonusDatabaseTimeoutInSeconds = databaseContextSettings.BonusDatabaseTimeoutInSeconds;
 		}
 
 		public async Task<Bonus> Get(long id)
 		{
-			using var dbConnection = _sqlConnectionService.CreateBonusDatabaseSqlConnection();
+			using var dbConnection = _dbConnectionService.CreateBonusDatabaseSqlConnection();
 			const string sql = "select * from Bonuses where Id = @id";
 			return await dbConnection.QuerySingleOrDefaultAsync<Bonus>(sql, new { id = id }, commandTimeout: _bonusDatabaseTimeoutInSeconds);
 		}
 
 		public async Task<Bonus[]> Get()
 		{
-			using var dbConnection = _sqlConnectionService.CreateBonusDatabaseSqlConnection();
+			using var dbConnection = _dbConnectionService.CreateBonusDatabaseSqlConnection();
 			const string sql = "select * from Bonuses";
 			return (await dbConnection.QueryAsync<Bonus>(sql, commandTimeout: _bonusDatabaseTimeoutInSeconds)).ToArray();
 		}
